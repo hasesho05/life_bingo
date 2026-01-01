@@ -1,0 +1,1 @@
+export { useBingoStore } from './useBingoStore';
