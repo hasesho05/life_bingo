@@ -39,6 +39,8 @@ const initialState = {
   mode: 'write' as EditMode,
   title: '2026年の目標ビンゴ',
   theme: defaultTheme,
+  backgroundImageUrl: null as string | null,
+  selectedTemplate: 'pastel-grid',
 };
 
 /**
@@ -103,6 +105,16 @@ export const useBingoStore = create<BingoStore>()(
        * Set theme
        */
       setTheme: (theme: BingoTheme) => set({ theme }),
+
+      /**
+       * Set background image URL (for user uploaded images)
+       */
+      setBackgroundImage: (url: string | null) => set({ backgroundImageUrl: url }),
+
+      /**
+       * Set selected template ID
+       */
+      setTemplate: (id: string) => set({ selectedTemplate: id, backgroundImageUrl: null }),
 
       /**
        * Reset board to initial state

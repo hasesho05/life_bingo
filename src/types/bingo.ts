@@ -21,6 +21,8 @@ export interface BingoState {
   mode: EditMode;
   title: string;
   theme: BingoTheme;
+  backgroundImageUrl: string | null;
+  selectedTemplate: string;
 }
 
 export interface BingoActions {
@@ -30,6 +32,8 @@ export interface BingoActions {
   setMode: (mode: EditMode) => void;
   setTitle: (title: string) => void;
   setTheme: (theme: BingoTheme) => void;
+  setBackgroundImage: (url: string | null) => void;
+  setTemplate: (id: string) => void;
   resetBoard: () => void;
 }
 

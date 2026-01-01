@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/**
+ * Main App Component
+ * Smart component that connects to Zustand store
+ * and passes data to dumb components
+ */
 
-function App() {
-  const [count, setCount] = useState(0)
+import { MainLayout } from '@/components/layout';
+import { BingoBoard, SettingsPanel } from '@/components/bingo';
+import { useBingoStore } from '@/store/useBingoStore';
+
+const App = () => {
+  // Select state from store
+  const cells = useBingoStore((state) => state.cells);
+  const title = useBingoStore((state) => state.title);
+  const backgroundImageUrl = useBingoStore((state) => state.backgroundImageUrl);
+  const selectedTemplate = useBingoStore((state) => state.selectedTemplate);
+
+  // Select actions from store
+  const setTemplate = useBingoStore((state) => state.setTemplate);
+  const setBackgroundImage = useBingoStore((state) => state.setBackgroundImage);
+
+  const handleCellTap = (id: string) => {
+    // For now, just log - cell editing will be implemented in future phase
+    console.log('Cell tapped:', id);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <MainLayout>
+      <div className="py-6">
+        {/* Title */}
+        <h1 className="text-2xl font-bold text-center mb-4 px-4">
+          {title}
+        </h1>
 
-export default App
+        {/* Bingo Board */}
+        <BingoBoard
+          cells={cells}
+          backgroundImageUrl={backgroundImageUrl}
+          selectedTemplate={selectedTemplate}
+          onCellTap={handleCellTap}
+        />
+
+        {/* Settings Panel */}
+        <div className="mt-6">
+          <SettingsPanel
+            selectedTemplate={selectedTemplate}
+            backgroundImageUrl={backgroundImageUrl}
+            onTemplateSelect={setTemplate}
+            onImageUpload={setBackgroundImage}
+          />
+        </div>
+      </div>
+    </MainLayout>
+  );
+};
+
+export default App;
